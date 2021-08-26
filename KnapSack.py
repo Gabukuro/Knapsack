@@ -3,33 +3,34 @@ from Population import Population
     
 class KnapSackSolver:
 
-  def __init__(self):
-    self.populationLength = 500
-    self.population = Population()
+  def __init__(self, itemsWeigth, itemsPoints, maxWeight = 30, populationLength = 10):
+    self.itemsWeigth = itemsWeigth
+    self.itemsPoints = itemsPoints
+    self.maxWeight = maxWeight
+    self.populationLength = populationLength
     self.generationCount = 0
-    self.itemsWeigth = [15, 3, 2, 5, 9, 20]
-    self.itemsPoints = [15, 7, 10, 5, 8, 17]
+    self.population = Population()
 
   def solve(self):
 
     self.population.initializePopulation(self.populationLength)
-    self.population.calculateFitness(self.itemsWeigth, self.itemsPoints)
+    self.population.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
     self.printGeneration()
 
-    while self.shouldStop():
+    while not self.isBestGeneration():
 
       self.crossover()
 
       if random.randint(0, 999)%7 < 5:
         self.mutation()
-      
-      self.population.calculateFitness(self.itemsWeigth, self.itemsPoints)
+
+      self.population.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
       self.addFittestOffspring()
       self.lastFittest = self.fittest
       self.generationCount += 1
       self.printGeneration()
 
-  def shouldStop(self):
+  def isBestGeneration(self):
     if not hasattr(self, 'lastFittest'):
       return False
 
@@ -74,8 +75,8 @@ class KnapSackSolver:
     self.secondFittest.genes[mutationPoint] = not self.secondFittest.genes[mutationPoint]
 
   def addFittestOffspring(self):
-    self.fittest.calculateFitness(self.itemsWeigth, self.itemsPoints)
-    self.secondFittest.calculateFitness(self.itemsWeigth, self.itemsPoints)
+    self.fittest.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
+    self.secondFittest.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
     leastFittest = self.population.getLeastFittest()
     self.population.individuals[self.population.individuals.index(leastFittest)] = self.getFittestOffspring()
 

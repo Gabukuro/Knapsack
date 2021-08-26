@@ -12,9 +12,9 @@ class Population:
     for i in range(self.popSize):
       self.individuals.append(Individual())
     
-  def calculateFitness(self, itemsWeigth, itemsPoints):
+  def calculateFitness(self, itemsWeigth, itemsPoints, maxWeight):
     for individual in self.individuals:
-      individual.calculateFitness(itemsWeigth, itemsPoints)
+      individual.calculateFitness(itemsWeigth, itemsPoints, maxWeight)
   
     self.getFittest()
   
