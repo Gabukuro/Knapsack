@@ -34,4 +34,13 @@ Seu objetivo é maximizar os pontos de sobrevivência.
 
 ## Resolvendo o problema
 
+No arquivo main.py resolvemos o problema definindo em dois arrays o peso e ponto de cada item, o limite de peso para uma mochila e o tamanho da população (intervalo de busca) para solucionar o problema.
+
+https://github.com/Gabukuro/Knapsack/blob/bae7d8b149665e5885f5fbc6fee5c85ceca86745/main.py#L1-L9
+
+
 ### 1. População Inicial
+
+Dentro da classe KnapSackSolver, o método solve() dá início ao processo de seleção natural.
+
+https://github.com/Gabukuro/Knapsack/blob/bae7d8b149665e5885f5fbc6fee5c85ceca86745/KnapSack.py#L14-L31
