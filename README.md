@@ -41,6 +41,73 @@ https://github.com/Gabukuro/Knapsack/blob/bae7d8b149665e5885f5fbc6fee5c85ceca867
 
 ### 1. População Inicial
 
-Dentro da classe KnapSackSolver, o método solve() dá início ao processo de seleção natural.
+O processo de evolução começa com um conjunto de indivíduos chamado população e cada indivíduo representa uma solução possível para o problema.
 
-https://github.com/Gabukuro/Knapsack/blob/bae7d8b149665e5885f5fbc6fee5c85ceca86745/KnapSack.py#L14-L31
+Um indivíduo é caracterizado por um conjunto de parâmetros conhecido como genes e estes genes aglomerados em uma string formam um cromossomo, uma solução.
+
+Em algoritmos genéticos, o conjunto de genes de um indivíduo é representado por uma string, e geralmente valores binários são utilizados, ou seja, strings de 0 e 1. 
+
+![Exemplo de indivíduos em uma população](./Assets/initial_population_example.png)
+
+Dentro da classe KnapSackSolver, o método solve() dá início ao processo de seleção natural, gerando a população com a quantidade de membros que foi recebido como parâmetro pelo construtor da classe.
+
+A classe População irá gerar de forma aleatória os indivíduos da primeira geração, ou seja, a única regra aplicada para essa geração é de que o máximo de peso não deve ser excedido.
+
+```python
+  # método solve dentro da classe KnapSackSolver
+
+  def solve(self):
+
+    self.population.initializePopulation(self.populationLength)
+
+  ...
+
+  # método initializePopulation dentro da classe population
+
+  def initializePopulation(self, size):
+    self.popSize = size
+    for i in range(self.popSize):
+      self.individuals.append(Individual())
+
+  ...
+
+  # construtor de population que irá gerar os cromossomos de maneira aleatória
+
+  def __init__(self):
+    self.weight = 0
+    self.fitness = 0
+    self.geneLength = 6
+    self.genes = random.randint(2, size=self.geneLength)
+
+```
+
+### 2. Pontuar indivíduos
+
+Aqui é onde iremos determinar o quão apto um indívuo está, ele receberá uma pontuação e isso irá nos guiar para as próximas etapas.
+
+No código, ainda dentro do método solve, da classe KnapSackSolver, é realizado desde a primeira geração a função calculateFitness, que serve para calcular a pontuação de cada indivíduo.
+
+```python
+  # chamando método para calcular ponto dos indivíduos dentro do método solve
+
+  self.population.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
+
+  ...
+
+  # dentro da classe Population chamando o método para calulcar o ponto de cada indivíduo
+  
+  def calculateFitness(self, itemsWeigth, itemsPoints, maxWeight):
+  for individual in self.individuals:
+    individual.calculateFitness(itemsWeigth, itemsPoints, maxWeight)
+
+  # dentro da classe Individual o método será executado e salvará a pontuação de cada indivíduo
+
+  def calculateFitness(self, itemsWeigth, itemsPoints, maxWeight):
+  self.fitness = 0
+  self.weight = 0
+  for i in range(self.geneLength):
+    if self.genes[i] == 1 and self.weight + itemsWeigth[i] <= maxWeight:
+      self.fitness += itemsPoints[i]
+      self.weight += itemsWeigth[i]
+```
+
