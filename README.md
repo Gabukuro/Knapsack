@@ -83,7 +83,7 @@ A classe População irá gerar de forma aleatória os indivíduos da primeira g
 
 ### 2. Pontuar indivíduos
 
-Aqui é onde iremos determinar o quão apto um indívuo está, ele receberá uma pontuação e isso irá nos guiar para as próximas etapas.
+Aqui é onde iremos determinar o quão apto um indívuo é, ele receberá uma pontuação e isso irá nos guiar para as próximas etapas.
 
 No código, ainda dentro do método solve, da classe KnapSackSolver, é realizado desde a primeira geração a função calculateFitness, que serve para calcular a pontuação de cada indivíduo.
 
@@ -111,3 +111,39 @@ No código, ainda dentro do método solve, da classe KnapSackSolver, é realizad
       self.weight += itemsWeigth[i]
 ```
 
+### 3. Seleção
+
+É um dos pontos mais importantes no algoritmo genético. Para o par de indivíduo gerador de descendentes é escolhido de maneira aleatória um ponto de cruzamento dos genes.
+
+Aqui um exemplo, considerando o index 3 como ponte de cruzamento.
+
+![Exemplo de ponto de cruzamento](./Assets/crossover_point.png)
+
+Os descendentes criados passam pela troca de genes até o ponto de cruzamento.
+
+![Exemplo de cruzamento](./Assets/crossover_point_exchanging.png)
+
+Exemplo de novo descendente.
+
+![Exemplo de novo descendente](./Assets/new_offspring.png)
+
+No código, ainda dentro do método solve da classe KnapSackSolver, é chamada a função crossover da própria classe que irá definir o ponto de cruzamento.
+
+```
+  # enquanto não é a melhor geração é realizado o cruazmento dos melhores indivíduos
+
+  while not self.isBestGeneration():
+
+    self.crossover()
+
+  ...
+
+  def crossover(self):
+    crossOverPoint = random.randint(0, self.population.individuals[0].geneLength)
+
+    for i in range(0, crossOverPoint):
+      temp = self.fittest.genes[i]
+      self.fittest.genes[i] = self.secondFittest.genes[i]
+      self.secondFittest.genes[i] = temp
+
+```
