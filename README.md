@@ -129,7 +129,7 @@ Exemplo de novo descendente.
 
 No código, ainda dentro do método solve da classe KnapSackSolver, é chamada a função crossover da própria classe que irá definir o ponto de cruzamento.
 
-```
+```python
   # enquanto não é a melhor geração é realizado o cruazmento dos melhores indivíduos
 
   while not self.isBestGeneration():
