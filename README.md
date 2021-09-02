@@ -38,8 +38,11 @@ Seu objetivo é maximizar os pontos de sobrevivência.
 
 No arquivo main.py resolvemos o problema definindo em dois arrays o peso e ponto de cada item, o limite de peso para uma mochila e o tamanho da população (intervalo de busca) para solucionar o problema.
 
-https://github.com/Gabukuro/Knapsack/blob/bae7d8b149665e5885f5fbc6fee5c85ceca86745/main.py#L1-L9
+https://github.com/Gabukuro/Knapsack/blob/ad50da41f5545578e0bd2f493f5bec07126c27d1/main.py#L1-L10
 
+[Live demo](https://replit.com/@GabrielScatambu/Knapsack?v=1)
+
+![Resolução do problema](./Assets/ag_solution.png)
 
 ### 1. População Inicial
 
@@ -252,3 +255,11 @@ No código essa função recebeu o nome de isBestGeneration, pois é justamente 
       if individual.fitness >= self.lastFittest.fitness:
         count += 1
 ```
+
+## Referência
+
+- [Introduction to Genetic Algorithms — Including Example Code
+](https://towardsdatascience.com/introduction-to-genetic-algorithms-including-example-code-e396e98d8bf3)
+- [Algoritmos Genéticos](https://sites.icmc.usp.br/andre/research/genetic/)
+- [Problema da mochila
+](https://pt.wikipedia.org/wiki/Problema_da_mochila)
