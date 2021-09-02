@@ -103,6 +103,8 @@ class KnapSackSolver:
     print('============================================================')
     print('              (☞ﾟヮﾟ)☞ Last Gen Summary ☜(ﾟヮﾟ☜)             ')
     print('============================================================')
+    text = "Generation Nº{}"
+    print(text.format(self.generationCount))
     text = "Fittest Individual:     {}  score: {}  weight: {}"
     print(text.format(self.fittest.genes, self.fittest.fitness, self.fittest.weight))
     text = "2nd Fittest Individual: {}  score: {}  weight: {}"
