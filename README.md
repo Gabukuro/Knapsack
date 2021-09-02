@@ -233,18 +233,33 @@ A condição de parada é o método responsável por definir quando o algoritmo 
 No código essa função recebeu o nome de isBestGeneration, pois é justamente quando for a melhor geração que o código irá parar e apresentar a melhor solução possível.
 
 ```python
-  while not self.isBestGeneration():
-    self.selection()
-    self.crossover()
+    def solve(self):
 
-    if random.randint(0, 999)%7 < 5:
-      self.mutation()
+      self.population.initializePopulation(self.populationLength)
+      self.population.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
+      self.selection()
+      self.printGeneration()
 
-    self.population.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
-    self.addFittestOffspring()
-    self.lastFittest = self.fittest
-    self.generationCount += 1
-    self.printGeneration()
+      while not self.isBestGeneration():
+
+        self.crossover()
+
+        if random.randint(0, 999)%7 < 5:
+          self.mutation()
+
+        self.population.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
+        
+        self.addFittestOffspring()
+
+        self.lastFittest = self.fittest
+
+        self.generationCount += 1
+
+        self.selection()
+        
+        self.printGeneration()
+      
+      self.printLastGenerationSummary()
 
   def isBestGeneration(self):
     if not hasattr(self, 'lastFittest'):
@@ -254,6 +269,8 @@ No código essa função recebeu o nome de isBestGeneration, pois é justamente 
     for individual in self.population.individuals:
       if individual.fitness >= self.lastFittest.fitness:
         count += 1
+
+    return count / self.populationLength > 0.9
 ```
 
 ## Referência
