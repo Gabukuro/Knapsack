@@ -15,3 +15,5 @@ class Individual:
       if self.genes[i] == 1 and self.weight + itemsWeigth[i] <= maxWeight:
         self.fitness += itemsPoints[i]
         self.weight += itemsWeigth[i]
+      else:
+        self.genes[i] = 0

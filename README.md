@@ -10,13 +10,15 @@ O processo de seleção natural começa com a seleção dos indivíduos mais ada
 
 Esta noção é aplicada para encontrar a melhor entre diversas soluções para um determinado problema.
 
-São cinco fases consideradas em um algoritmo genético.
+Um algoritmo genético pode conter as seguintes etapas:
 
 1. População inicial
 2. Avaliação
 3. Seleção de indivíduos
 4. Cruzamento
 5. Mutação
+6. Condição de parada
+
 
 ## Descrição do problema
 
@@ -119,6 +121,43 @@ No código o processo de seleção é realizado dentro da classe KnapSackSolver,
 
 ```python
 
+  def solve(self):
+
+    self.population.initializePopulation(self.populationLength)
+    self.population.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
+    self.selection()
+    self.printGeneration()
+
+    while not self.isBestGeneration():
+
+      self.selection()
+  
+  ...
+
+  def selection(self):
+    self.fittest = self.population.getFittest()
+    self.secondFittest = self.population.getSecondFittest()
+  
+  ...
+
+  def getFittest(self):
+    maxFit = 0
+    for individual in self.individuals:
+      if maxFit <= individual.fitness:
+        maxFit = individual.fitness
+        maxFitIndividual = individual
+
+    self.fittest = maxFitIndividual.fitness 
+    return maxFitIndividual
+
+  def getSecondFittest(self):
+    maxFit2 = self.fittest
+    for individual in self.individuals:
+      if self.fittest >= individual.fitness and maxFit2 <= individual.fitness:
+        maxFit2 = individual.fitness
+        secondFitIndividual = individual
+
+    return secondFitIndividual
 ```
 
 ### 4. Cruzamento
@@ -154,4 +193,62 @@ No código, ainda dentro do método solve da classe KnapSackSolver, é chamada a
       self.fittest.genes[i] = self.secondFittest.genes[i]
       self.secondFittest.genes[i] = temp
 
+```
+
+### 5. Mutação
+
+Alguns descendentes da geração é possível que ocorra a mutação, a possibilidade no código geralmente é reduzida para não tornar o resultado muito aleatório. A mutação implica na alteração de alguns genes dos cromossomos dos indivíduos.
+
+O objetivo da mutação é manter a diversidade e previnir uma convergência prematura das gerações.
+
+![Exemplo de mutação](./Assets/mutation_example.png)
+
+No código esse método ocorre da seguinte forma, se a condição der verdadeira então é realizada uma mutação nos dois indivíduos mais aptos da geração:
+
+```python
+  # chamada do método de mutação
+
+  if random.randint(0, 999)%7 < 5:
+    self.mutation()
+
+  ...
+
+  def mutation(self):
+    mutationPoint = random.randint(0, self.population.individuals[0].geneLength)
+
+    self.fittest.genes[mutationPoint] = not self.fittest.genes[mutationPoint]
+
+    mutationPoint = random.randint(0, self.population.individuals[0].geneLength)
+
+    self.secondFittest.genes[mutationPoint] = not self.secondFittest.genes[mutationPoint]
+```
+
+### 6. Condição de parada
+
+A condição de parada é o método responsável por definir quando o algoritmo deve parar de gerar novas gerações, ou seja, ele irá definir o que será considerado a melhor geração possível (geração com as melhores soluções possíveis).
+
+No código essa função recebeu o nome de isBestGeneration, pois é justamente quando for a melhor geração que o código irá parar e apresentar a melhor solução possível.
+
+```python
+  while not self.isBestGeneration():
+    self.selection()
+    self.crossover()
+
+    if random.randint(0, 999)%7 < 5:
+      self.mutation()
+
+    self.population.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
+    self.addFittestOffspring()
+    self.lastFittest = self.fittest
+    self.generationCount += 1
+    self.printGeneration()
+
+  def isBestGeneration(self):
+    if not hasattr(self, 'lastFittest'):
+      return False
+
+    count = 0
+    for individual in self.population.individuals:
+      if individual.fitness >= self.lastFittest.fitness:
+        count += 1
 ```

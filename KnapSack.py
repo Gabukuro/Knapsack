@@ -10,6 +10,10 @@ class KnapSackSolver:
     self.populationLength = populationLength
     self.generationCount = 0
     self.population = Population()
+    self.shouldPrintGeneration = True
+
+  def desablePrintGeneration(self):
+    self.shouldPrintGeneration = False
 
   def solve(self):
 
@@ -20,17 +24,24 @@ class KnapSackSolver:
 
     while not self.isBestGeneration():
 
-      self.selection()
       self.crossover()
 
       if random.randint(0, 999)%7 < 5:
         self.mutation()
 
       self.population.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
+      
       self.addFittestOffspring()
+
       self.lastFittest = self.fittest
+
       self.generationCount += 1
+
+      self.selection()
+      
       self.printGeneration()
+    
+    self.printLastGenerationSummary()
 
   def isBestGeneration(self):
     if not hasattr(self, 'lastFittest'):
@@ -44,8 +55,12 @@ class KnapSackSolver:
     return count / self.populationLength > 0.9
 
   def printGeneration(self):
-    text = "Generation: {} Fittest score: {}"
-    print(text.format(self.generationCount, self.fittest.fitness))
+
+    if not self.shouldPrintGeneration: 
+      return;
+
+    text = "Generation: {}"
+    print(text.format(self.generationCount))
     print("==Genetic Pool==")
     index = 0
     for individual in self.population.individuals:
@@ -83,3 +98,13 @@ class KnapSackSolver:
 
   def getFittestOffspring(self):
     return self.fittest if self.fittest.fitness > self.secondFittest.fitness else self.secondFittest
+
+  def printLastGenerationSummary(self):
+    print('============================================================')
+    print('              (☞ﾟヮﾟ)☞ Last Gen Summary ☜(ﾟヮﾟ☜)             ')
+    print('============================================================')
+    text = "Fittest Individual:     {}  score: {}  weight: {}"
+    print(text.format(self.fittest.genes, self.fittest.fitness, self.fittest.weight))
+    text = "2nd Fittest Individual: {}  score: {}  weight: {}"
+    print(text.format(self.secondFittest.genes, self.secondFittest.fitness, self.secondFittest.weight))
+    print('============================================================')
