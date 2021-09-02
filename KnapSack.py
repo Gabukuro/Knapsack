@@ -15,10 +15,12 @@ class KnapSackSolver:
 
     self.population.initializePopulation(self.populationLength)
     self.population.calculateFitness(self.itemsWeigth, self.itemsPoints, self.maxWeight)
+    self.selection()
     self.printGeneration()
 
     while not self.isBestGeneration():
 
+      self.selection()
       self.crossover()
 
       if random.randint(0, 999)%7 < 5:
@@ -42,7 +44,6 @@ class KnapSackSolver:
     return count / self.populationLength > 0.9
 
   def printGeneration(self):
-    self.selection()
     text = "Generation: {} Fittest score: {}"
     print(text.format(self.generationCount, self.fittest.fitness))
     print("==Genetic Pool==")

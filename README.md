@@ -13,7 +13,7 @@ Esta noção é aplicada para encontrar a melhor entre diversas soluções para 
 São cinco fases consideradas em um algoritmo genético.
 
 1. População inicial
-2. Pontuar os indivíduos
+2. Avaliação
 3. Seleção de indivíduos
 4. Cruzamento
 5. Mutação
@@ -81,9 +81,9 @@ A classe População irá gerar de forma aleatória os indivíduos da primeira g
 
 ```
 
-### 2. Pontuar indivíduos
+### 2. Avaliação (Enem da geração)
 
-Aqui é onde iremos determinar o quão apto um indívuo é, ele receberá uma pontuação e isso irá nos guiar para as próximas etapas.
+Aqui é onde iremos determinar o quão apto um indívuo é, ele receberá uma pontuação baseada nos seus cromossomos e isso irá nos guiar para as próximas etapas.
 
 No código, ainda dentro do método solve, da classe KnapSackSolver, é realizado desde a primeira geração a função calculateFitness, que serve para calcular a pontuação de cada indivíduo.
 
@@ -111,7 +111,17 @@ No código, ainda dentro do método solve, da classe KnapSackSolver, é realizad
       self.weight += itemsWeigth[i]
 ```
 
-### 3. Seleção
+### 3. Seleção dos indivíduos
+
+Aqui a ideia é selecionar os melhores indivíduos da geração para realizar a próxima etapa, o cruzamento.
+
+No código o processo de seleção é realizado dentro da classe KnapSackSolver, na função solve.
+
+```python
+
+```
+
+### 4. Cruzamento
 
 É um dos pontos mais importantes no algoritmo genético. Para o par de indivíduo gerador de descendentes é escolhido de maneira aleatória um ponto de cruzamento dos genes.
 
@@ -130,11 +140,9 @@ Exemplo de novo descendente.
 No código, ainda dentro do método solve da classe KnapSackSolver, é chamada a função crossover da própria classe que irá definir o ponto de cruzamento.
 
 ```python
-  # enquanto não é a melhor geração é realizado o cruazmento dos melhores indivíduos
+  # após a selecção é realizado o cruzamento dos melhores indivíduos
 
-  while not self.isBestGeneration():
-
-    self.crossover()
+  self.crossover()
 
   ...
 
