@@ -12,7 +12,7 @@ class KnapSackSolver:
     self.population = Population()
     self.shouldPrintGeneration = True
 
-  def desablePrintGeneration(self):
+  def disablePrintGeneration(self):
     self.shouldPrintGeneration = False
 
   def solve(self):

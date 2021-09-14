@@ -6,5 +6,5 @@ itemsPoints = [15, 7, 10, 5, 8, 17]
 maxWeight = 30
 
 knapSackSolver = KnapSackSolver(itemsWeigth, itemsPoints, maxWeight, populationLength)
-knapSackSolver.desablePrintGeneration()
+knapSackSolver.disablePrintGeneration()
 knapSackSolver.solve()
